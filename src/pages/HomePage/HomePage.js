@@ -9,8 +9,11 @@ const HomePage = ({ homeData }) => {
   const [searchItems, setSearchItems] = useState("");
 
   useEffect(() => {
-    setItems(homeData);
-  }, []);
+    const itemDisplay = () => {
+      setItems(homeData);
+    };
+    itemDisplay();
+  });
 
   const handleChange = (e) => {
     setSearchItems(e.target.value);
