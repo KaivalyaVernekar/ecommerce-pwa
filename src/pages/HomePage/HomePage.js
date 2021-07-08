@@ -15,9 +15,21 @@ const HomePage = ({ homeData }) => {
     itemDisplay();
   });
 
+  //debounce principle to limit function invocation
+  const debounceFunc = (fn) => {
+    let timer;
+    return (...args) => {
+      const context = this;
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(() => {
+        timer = null;
+        fn.apply(context, args);
+      }, 500);
+    };
+  };
+
   const handleChange = (e) => {
     setSearchItems(e.target.value);
-    console.log(e);
   };
 
   const filteredItems = items.filter((item) => {
@@ -26,6 +38,8 @@ const HomePage = ({ homeData }) => {
       .includes(searchItems.toLowerCase());
     return filteringItems;
   });
+
+  const optimisedVersion = debounceFunc(handleChange);
 
   return (
     <div className="homepage">
@@ -36,7 +50,7 @@ const HomePage = ({ homeData }) => {
           className="homepage__inputfield"
           type="search"
           placeholder="Search Items"
-          onChange={handleChange}
+          onChange={optimisedVersion}
         />
       </div>
 
